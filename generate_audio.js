@@ -55,6 +55,7 @@ function downloadAudio(text, filepath) {
     const req = https.request(options, (res) => {
       if (res.statusCode !== 200) {
         console.error(`Failed to download ${text}: ${res.statusCode}`);
+        res.resume();
         return resolve();
       }
       const file = fs.createWriteStream(filepath);

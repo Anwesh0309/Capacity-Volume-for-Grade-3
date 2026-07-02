@@ -138,6 +138,7 @@ function generateAudio(phrase) {
     const req = https.request(options, (res) => {
       if (res.statusCode !== 200) {
         console.error(`❌ Failed: ${phrase.key} (${res.statusCode})`);
+        res.resume();
         resolve();
         return;
       }
