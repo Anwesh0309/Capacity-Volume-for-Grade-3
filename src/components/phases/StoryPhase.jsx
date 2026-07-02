@@ -6,32 +6,12 @@ import storySlides from '../../data/storyContent.js';
 
 const StoryImage = ({ slide }) => (
   <div style={{
-    background: `linear-gradient(135deg, ${slide.imageColors[0]}, ${slide.imageColors[1]})`,
-    borderRadius: 16, padding: 20, textAlign: 'center', minHeight: 180,
+    borderRadius: 16, textAlign: 'center', minHeight: 180,
     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-    position: 'relative', overflow: 'hidden', flex: '0 0 auto', width: '100%', maxWidth: 340,
+    position: 'relative', overflow: 'hidden', flex: '0 0 auto', width: '100%', maxWidth: 380,
+    boxShadow: '0 8px 24px rgba(0,0,0,0.3)', background: '#1a1050'
   }}>
-    {/* Decorative bg circles */}
-    <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.15)' }} />
-    <div style={{ position: 'absolute', bottom: -10, left: -10, width: 50, height: 50, borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
-
-    <div style={{
-      background: 'rgba(0,0,0,0.25)', borderRadius: 12, padding: '6px 14px', marginBottom: 12,
-      fontSize: 13, fontWeight: 800, color: 'white',
-    }}>
-      {slide.imageLabel}
-    </div>
-
-    <div style={{ fontSize: 64, marginBottom: 8, filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))' }}>
-      {slide.image}
-    </div>
-
-    <div style={{
-      background: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: '6px 14px',
-      fontSize: 14, fontWeight: 900, color: 'white',
-    }}>
-      ⭐ {slide.imageCaption} ⭐
-    </div>
+    <img src={`/assets/story_slide_${slide.id}.png`} alt="Story Slide Illustration" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
   </div>
 );
 

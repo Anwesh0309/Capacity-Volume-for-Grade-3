@@ -7,7 +7,7 @@ import StoryPhase from './components/phases/StoryPhase.jsx';
 import SimulatePhase from './components/phases/SimulatePhase.jsx';
 import PlayPhase from './components/phases/PlayPhase.jsx';
 import ReflectPhase from './components/phases/ReflectPhase.jsx';
-import { setAudioEnabled } from './utils/audio.js';
+import { setAudioEnabled, stopNarration } from './utils/audio.js';
 import { generateSessionQuestions } from './utils/shuffle.js';
 import questionBank from './data/questionBank.js';
 
@@ -101,6 +101,10 @@ function App() {
     const questions = generateSessionQuestions(questionBank);
     dispatch({ type: 'LOAD_QUESTIONS', questions });
   }, []);
+
+  useEffect(() => {
+    stopNarration();
+  }, [state.phase]);
 
   const phaseIndex = PHASES.findIndex(p => p.id === state.phase);
 

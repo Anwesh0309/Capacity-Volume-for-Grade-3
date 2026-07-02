@@ -86,13 +86,17 @@ const SimulatePhase = ({ audioEnabled, currentStation, stationsComplete, onAdvan
         </button>
 
         {active < 3 ? (
-          <button className="btn btn-purple btn-sm" onClick={() => setActive(a => Math.min(3, a + 1))}>
-            Next Station →
-          </button>
+          stationsComplete[active] && (
+            <button className="btn btn-purple btn-sm" onClick={() => setActive(a => Math.min(3, a + 1))}>
+              Next Station →
+            </button>
+          )
         ) : (
-          <button className="btn btn-gold btn-sm" onClick={onFinish}>
-            🎮 Start Playing! →
-          </button>
+          stationsComplete[active] && (
+            <button className="btn btn-gold btn-sm" onClick={onFinish}>
+              🎮 Start Playing! →
+            </button>
+          )
         )}
       </div>
     </div>

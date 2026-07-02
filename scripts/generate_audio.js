@@ -1,9 +1,13 @@
 // Audio generation script for ElevenLabs API
 // Usage: node scripts/generate_audio.js
 
-const fs = require('fs');
-const https = require('https');
-const path = require('path');
+import fs from 'fs';
+import https from 'https';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const API_KEY = 'sk_7ef27dccb32144843f8ee5068dfd4223a85326c56c14b00a';
 const VOICE_ID = 'Xb7hH8MSUJpSbSDYk0k2'; // Alice voice
@@ -17,10 +21,10 @@ const phrases = [
   { text: "Welcome to Measuring Capacity! Let's explore litres and millilitres together.", style: "statement", key: "intro_welcome" },
 
   // Wonder phase
-  { text: "Hmm... I wonder something!", style: "question", key: "wonder_hmm" },
+  { text: "Hmm... I wonder...", style: "question", key: "wonder_hmm" },
   { text: "Emma has a two-litre bottle and a five-hundred-millilitre cup. How many cups can she fill?", style: "question", key: "wonder_question" },
-  { text: "What if we could measure any liquid — big or small?", style: "thinking", key: "wonder_hint" },
-  { text: "We might need to convert litres and millilitres!", style: "emphasis", key: "wonder_teaser" },
+  { text: "What if we need to measure and compare different amounts of liquid?", style: "thinking", key: "wonder_hint" },
+  { text: "We have to convert litres and millilitres!", style: "emphasis", key: "wonder_teaser" },
   { text: "Let's investigate!", style: "encouragement", key: "wonder_cta" },
 
   // Story phase
@@ -39,6 +43,8 @@ const phrases = [
 
   // Play phase
   { text: "Choose your world and start playing!", style: "encouragement", key: "play_choose" },
+  { text: "That's Correct keep going", style: "celebration", key: "pop_correct" },
+  { text: "Not Quite lets try again", style: "encouragement", key: "pop_incorrect" },
   { text: "Perfectly poured! You measured that just right!", style: "celebration", key: "play_correct" },
   { text: "Not quite — check the scale again!", style: "encouragement", key: "play_incorrect" },
   { text: "Amazing streak! Keep going!", style: "celebration", key: "play_streak" },
@@ -71,6 +77,12 @@ console.log(`🎙️  Generating ${phrases.length} audio files...`);
 console.log(`📁 Output: ${OUTPUT_DIR}\n`);
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+
+// Wipe specific wonder phase old files
+['wonder_hmm', 'wonder_hint', 'wonder_teaser'].forEach(key => {
+  const p = path.join(OUTPUT_DIR, `audio_${key}.mp3`);
+  if (fs.existsSync(p)) fs.unlinkSync(p);
+});
 
 const audioMap = {};
 let completed = 0;

@@ -75,9 +75,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background: rgba(13,10,46,0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
+  border-bottom: none;
   flex-shrink: 0;
   min-height: 56px;
 }
@@ -93,12 +92,29 @@ body {
   color: white;
   font-family: 'Nunito', sans-serif;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
 }
-.home-btn:hover { background: rgba(255,255,255,0.2); }
+.home-btn:hover { 
+  background: rgba(255,255,255,0.2); 
+  transform: scale(1.05); 
+}
+
+.home-btn span:last-child {
+  background: linear-gradient(90deg, #ff4757, #ffa502, #2ed573, #1e90ff, #9c88ff, #ff4757);
+  background-size: 200% auto;
+  animation: rainbow-scroll 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+@keyframes rainbow-scroll {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
 
 .phase-nav {
   display: flex;
@@ -366,21 +382,23 @@ body {
   pointer-events: none;
 }
 .feedback-popup {
-  padding: 16px 32px;
-  border-radius: 20px;
-  font-size: 20px;
+  padding: 24px 32px;
+  border-radius: 24px;
+  font-size: 24px;
   font-weight: 900;
   text-align: center;
   animation: feedbackPop 0.4s ease forwards;
   pointer-events: none;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+  min-width: 320px;
+  max-width: 400px;
 }
 .feedback-popup.correct {
-  background: linear-gradient(135deg, #00b894, #00cec9);
+  background: #5db350;
   color: white;
 }
 .feedback-popup.incorrect {
-  background: linear-gradient(135deg, #d63031, #e17055);
+  background: #e74c3c;
   color: white;
 }
 @keyframes feedbackPop {
@@ -550,6 +568,7 @@ body {
 .capacity-slider {
   width: 100%;
   -webkit-appearance: none;
+  appearance: none;
   height: 10px;
   border-radius: 5px;
   background: linear-gradient(to right, #6c5ce7, #4ecdc4);
@@ -558,6 +577,7 @@ body {
 }
 .capacity-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -602,6 +622,7 @@ body {
   gap: 16px;
   padding: 20px;
   height: 100%;
+  background: transparent;
 }
 .intro-tiles {
   display: flex;

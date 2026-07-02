@@ -1,6 +1,7 @@
 // Core audio engine — ElevenLabs pre-generated mp3 + Web Audio API SFX
 import audioMap from './audioMap.js';
 
+const globalAudio = new Audio();
 let currentAudio = null;
 let isEnabled = true;
 let narrationQueue = [];
@@ -15,11 +16,23 @@ function playMp3(text) {
   return new Promise((resolve) => {
     const path = audioMap[text];
     if (!path || !isEnabled) { resolve(); return; }
-    const audio = new Audio(path);
-    currentAudio = audio;
-    audio.onended = () => { currentAudio = null; resolve(); };
-    audio.onerror = () => { currentAudio = null; resolve(); };
-    audio.play().catch(() => resolve());
+    globalAudio.src = path;
+    currentAudio = globalAudio;
+    globalAudio.onended = () => { currentAudio = null; resolve(); };
+    globalAudio.onerror = () => { currentAudio = null; resolve(); };
+    globalAudio.play().catch(() => resolve());
+  });
+}
+
+export function playDirectMp3(path) {
+  return new Promise((resolve) => {
+    if (!isEnabled) { resolve(); return; }
+    stopNarration(); // assure everything else stops
+    globalAudio.src = path;
+    currentAudio = globalAudio;
+    globalAudio.onended = () => { currentAudio = null; resolve(); };
+    globalAudio.onerror = () => { currentAudio = null; resolve(); };
+    globalAudio.play().catch(() => resolve());
   });
 }
 
@@ -78,10 +91,10 @@ export async function narrate(items, autoplay = true) {
 export function stopNarration() {
   isPlaying = false;
   narrationQueue = [];
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-  }
+  globalAudio.pause();
+  globalAudio.removeAttribute('src');
+  globalAudio.load();
+  currentAudio = null;
 }
 
 export function playCorrectSfx() { SOUND_EFFECTS.correct(); }
